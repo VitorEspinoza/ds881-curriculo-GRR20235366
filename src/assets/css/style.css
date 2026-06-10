@@ -437,3 +437,15 @@ main section:nth-child(even) {
     flex-direction: column;
   }
 }
+
+/* Impressao / exportacao em PDF */
+@media print {
+  .site-header,
+  .hero-actions {
+    display: none;
+  }
+
+  main section:nth-child(even) {
+    background-color: transparent;
+  }
+}
