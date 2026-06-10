@@ -9,6 +9,7 @@
   --color-primary-hover: #1e3a8a;
   --color-accent: #0d9488;
   --color-white: #ffffff;
+  --color-on-primary: var(--color-white);
 
   /* Tipografia */
   --font-family-base: system-ui, -apple-system, "Segoe UI", roboto, helvetica, arial, sans-serif;
@@ -39,4 +40,16 @@
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%);
   --shadow-md: 0 4px 8px rgb(15 23 42 / 8%);
   --shadow-lg: 0 10px 24px rgb(15 23 42 / 12%);
+}
+
+/* Tema escuro (RF12) */
+[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-bg-alt: #1e293b;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
+  --color-primary: #60a5fa;
+  --color-primary-hover: #93c5fd;
+  --color-on-primary: #0f172a;
 }

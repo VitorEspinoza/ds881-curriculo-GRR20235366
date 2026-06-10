@@ -18,7 +18,12 @@
   <header class="site-header">
     <nav class="nav" aria-label="Navegação principal">
       <a class="nav-logo" href="#home">Vitor Espinoza</a>
-      <ul class="nav-list">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Abrir menu de navegação">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-list" id="nav-list">
         <li><a class="nav-link" href="#sobre">Sobre</a></li>
         <li><a class="nav-link" href="#habilidades">Habilidades</a></li>
         <li><a class="nav-link" href="#certificacoes">Certificações</a></li>
@@ -26,6 +31,7 @@
         <li><a class="nav-link" href="#formacao">Formação</a></li>
         <li><a class="nav-link" href="#idiomas">Idiomas</a></li>
         <li><a class="nav-link" href="#contato">Contato</a></li>
+        <li><button type="button" class="theme-toggle" aria-pressed="false">Tema escuro</button></li>
       </ul>
     </nav>
   </header>
