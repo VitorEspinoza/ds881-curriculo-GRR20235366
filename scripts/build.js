@@ -74,6 +74,7 @@ async function build() {
   copyRecursive(path.join(SRC_DIR, 'assets', 'img'), path.join(DIST_DIR, 'assets', 'img'));
   copyRecursive(path.join(SRC_DIR, 'assets', 'files'), path.join(DIST_DIR, 'assets', 'files'));
   copyRecursive(path.join(SRC_DIR, 'favicon.ico'), path.join(DIST_DIR, 'favicon.ico'));
+  copyRecursive(path.join(SRC_DIR, 'favicon.svg'), path.join(DIST_DIR, 'favicon.svg'));
 }
 
 build().catch((err) => {
