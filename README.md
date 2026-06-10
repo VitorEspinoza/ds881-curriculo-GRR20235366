@@ -58,6 +58,8 @@ O workflow em `.github/workflows/main.yml` roda em pushes e pull requests para a
 
 A branch `main` é protegida: alterações só entram via Pull Request, com os checks `lint` e `build` obrigatórios e a branch sempre atualizada antes do merge. Force push e exclusão da branch estão bloqueados, inclusive para administradores.
 
+<img width="420" height="514" alt="image" src="https://github.com/user-attachments/assets/6f731c3f-3bf2-41bc-aa1e-478f2deb2055" />
+
 ## Estrutura
 
 ```
@@ -70,3 +72,4 @@ src/
     ├── img/      # imagens e assets de Open Graph
     └── files/    # currículo em PDF
 ```
+
