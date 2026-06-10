@@ -1,70 +1,72 @@
-# Projeto Individual: Currículo Online DS881
+# Currículo Online — Vitor Adriel Deganelli Espinoza Moya
 
-Este repositório é um **template** para a atividade prática individual da disciplina DS881. O objetivo é aplicar conceitos de conteinerização, automação de pipeline CI/CD e governança de código em um cenário de projeto real (seu currículo ou portfólio profissional).
+[![CI](https://github.com/VitorEspinoza/ds881-curriculo-GRR20235366/actions/workflows/main.yml/badge.svg)](https://github.com/VitorEspinoza/ds881-curriculo-GRR20235366/actions/workflows/main.yml)
 
-## Instruções para Início
+Currículo pessoal em formato de site estático (HTML, CSS e JS puros), publicado no GitHub Pages.
 
-Para iniciar o seu trabalho, siga estes passos:
+## Site em produção
 
-1. Clique no botão verde **"Use this template"** e selecione **"Create a new repository"**.
-2. Nomeie o repositório como `ds881-curriculo-GRR99999999`.
-3. Certifique-se de que a visibilidade seja **Public**.
-4. Configure a proteção da branch `main` imediatamente (instruções na seção 2.2).
+https://vitorespinoza.github.io/ds881-curriculo-GRR20235366/
 
----
+A publicação é automática: a cada push/merge na `main`, o workflow de CI/CD gera o build e atualiza o GitHub Pages.
 
-## 1. Objetivo
-Desenvolver e publicar um currículo profissional ou portfólio pessoal utilizando o GitHub Pages. O projeto deve demonstrar o domínio de ferramentas de conteinerização, automação de pipeline CI/CD e governança de código via fluxos de trabalho estruturados, mesmo em um ambiente de desenvolvimento individual.
+## Rodando localmente com Docker
 
-## 2. Requisitos Técnicos
+Não é preciso ter Node.js instalado — tudo roda dentro do container.
 
-### 2.1. Tecnologia e Stack
-* **Aplicação:** O site deve ser estático. É livre a escolha entre HTML/CSS puro ou o uso de geradores de site estático (SSG) como Astro, Hugo ou Jekyll.
-* **Hospedagem:** O deploy final deve ser realizado obrigatoriamente no GitHub Pages.
+Subir o ambiente de desenvolvimento (com hot reload em `http://localhost:8080`):
 
-### 2.2. Conteinerização do Ambiente de Desenvolvimento (Docker)
-O repositório deve fornecer a infraestrutura necessária para que o projeto possa ser editado e testado localmente sem a exigência de instalar as linguagens ou dependências base (como Node.js ou Ruby) no sistema operacional do hospedeiro.
-* **Dockerfile:** Deve especificar uma imagem base adequada (ex: `node:alpine` ou `ruby:alpine`) e preparar o ambiente com as ferramentas necessárias para executar o gerador de site estático escolhido.
-* **Docker Compose (`docker-compose.yml`):** Deve ser configurado para iniciar o servidor de desenvolvimento nativo da ferramenta (ex: `vite dev`, `jekyll serve` ou `hugo server`).
-* **Mapeamento de Volumes (Bind Mounts):** A configuração do Compose deve mapear o diretório local do código-fonte para o diretório de trabalho dentro do contêiner. Isso é obrigatório para garantir o funcionamento do *hot reload* (atualização automática no navegador ao salvar um arquivo).
-* **Portas:** O servidor de desenvolvimento dentro do contêiner deve ser mapeado para responder na porta `8080` do localhost da máquina hospedeira.
+```bash
+docker compose up
+```
 
-### 2.3. Workflow de Git e Governança
-Apesar de ser um projeto individual, o projeto deve seguir as boas prática do desenvolvimento com git:
-* **Proteção de Branch:** A branch `main` deve estar configurada como protegida nas configurações do repositório.
-* **Fluxo de Trabalho:** É proibido realizar *push* direto na `main`. Toda alteração deve ser feita em uma branch secundária (ex: `feat/nome-da-feature`) e integrada via **Pull Request (PR)**.
-* **Critérios de Merge:** O merge para a `main` só deve ser permitido se o pipeline de CI estiver com status "verde" (sucesso).
-* **Mensagens de Commit:** Devem seguir o padrão *Conventional Commits* (ex: `feat:`, `fix:`, `ci:`, `docs:`).
+Em background:
 
-### 2.4. CI/CD (GitHub Actions)
-Implementação de um workflow automatizado (`.github/workflows/main.yml`) contendo:
-1.  **Linter/Static Analysis:** Verificação de sintaxe e padrões de código.
-2.  **Build:** Validação de que a aplicação compila corretamente dentro do ambiente de CI.
-3.  **Deploy:** Publicação automatizada no GitHub Pages disparada após o merge na branch `main`.
+```bash
+docker compose up -d
+```
 
-## 3. Documentação
-O arquivo `README.md` deve conter:
-1.  Link público do currículo em produção.
-2.  Instruções detalhadas para execução do ambiente local via Docker.
-3.  Prints ou descrição da configuração de proteção da branch `main` aplicada no GitHub.
+Alterações em `src/**/*.html`, `src/assets/css/**/*.css` e `src/assets/js/**/*.js` são refletidas automaticamente no navegador.
 
-## 4. Critérios de Avaliação
+Rodar o lint (HTMLHint + Stylelint):
 
-| Item | Peso |
-| :--- | :--- |
-| Configuração correta de Docker (Dockerfile e Compose) | 30% |
-| Pipeline de CI/CD funcional (Lint, Build e Deploy) | 30% |
-| Evidência de uso de Pull Requests e Branch Protection | 20% |
-| Qualidade da documentação e histórico de commits | 10% |
-| Funcionamento da aplicação no GitHub Pages | 10% |
+```bash
+docker compose exec web npm run lint
+```
 
+Gerar o build de produção (saída em `./dist`):
 
----
+```bash
+docker compose exec web npm run build
+```
 
-## 5. Entrega e Avaliação
+Encerrar:
 
-A entrega deve ser realizada através do formulário disponibilizado pelo professor, contendo o link do seu repositório público.
+```bash
+docker compose down
+```
 
----
+## CI/CD
 
-> **Atenção:** Não esqueça de anexar no final deste README ou na documentação do projeto um print comprovando que a regra de **Branch Protection** da `main` foi configurada no GitHub.
+O workflow em `.github/workflows/main.yml` roda em pushes e pull requests para a `main`, em três etapas:
+
+- **lint**: HTMLHint + Stylelint sobre o código em `src/`.
+- **build**: gera `./dist` (HTML/CSS minificados) e prepara o artefato para o Pages.
+- **deploy**: publica `./dist` no GitHub Pages, apenas em pushes na `main` e somente se o build passar.
+
+## Branch protection
+
+A branch `main` é protegida: alterações só entram via Pull Request, com os checks `lint` e `build` obrigatórios e a branch sempre atualizada antes do merge. Force push e exclusão da branch estão bloqueados, inclusive para administradores.
+
+## Estrutura
+
+```
+src/
+├── index.html
+├── favicon.svg
+└── assets/
+    ├── css/      # reset, variáveis de tema e estilos das seções
+    ├── js/       # menu mobile, scroll suave, ano dinâmico, tema claro/escuro
+    ├── img/      # imagens e assets de Open Graph
+    └── files/    # currículo em PDF
+```
